@@ -1,33 +1,44 @@
-import React, { useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router-dom';
-import BlogMoreInfo from './BlogMoreInfo';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-const Blog = ({ blog, handleUpdate, handleRemove, user }) => {
-  // const [showMore, setShowMore] = useState(false)
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-    display: 'block'
-  };
+const Blog = ({ blog }) => {
+  const StylishBlog = styled.div`
+    width: 550px;
+    height: 30px;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10;
+    padding-left: 2;
+    border: 2px solid #8f8d64;
+    border-width: 1;
+    margin-bottom: 5;
+    display: block;
+    background: #85015d;
+    &:hover {
+      background: #f20049;
+    }
+    color: white;
+  `;
+  const StylishLink = styled.div`
+    color: white;
+    &:link {
+      color: white;
+    }
+    &:visited {
+      color: green;
+    }
+  `;
 
   return (
-    <div style={blogStyle}>
+    <StylishBlog>
       <Link to={`/blogs/${blog.id}`}>
-        {blog.title} - {blog.author}
+        <StylishLink>
+          {blog.title} - {blog.author}
+        </StylishLink>
       </Link>
-    </div>
+    </StylishBlog>
   );
 };
 
-
-export default Blog
+export default Blog;

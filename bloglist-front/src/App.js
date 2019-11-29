@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
+  Route, Link
 } from 'react-router-dom'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import loginService from './services/login';
 import blogsService from './services/blogs';
@@ -22,6 +23,45 @@ import { setSuccessNotification } from './reducers/successReducer'
 import { initializeBlogs, addBlog, updateBlog, deleteBlog } from './reducers/blogReducer'
 import { setUser, clearUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/allUsersReducer'
+
+const StylishBlogForm = styled.div`
+  width: 150px;
+  margin: 0 auto;
+`
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    min-height: 100%;
+    background: linear-gradient(to top, black, #00025c);
+    color: #e6e6eb;
+    font-family: sans-serif;
+  }
+`
+
+const Button = styled.button`
+background: #fff870;
+&:hover {
+  background: #85015d
+}
+font-size: 0.9em;
+margin: 1em;
+padding: 0.25em 1em;
+border: 2px solid #8f8d64;
+border-radius: 3px;
+`
+
+const LoginDiv = styled.div`
+  width: 150px;
+  margin: 0 auto;
+`
+
+const H1 = styled.h1`
+  margin-left: auto;
+    margin-right: auto;
+  display: inline-block;
+  text-align: center;
+  color: #ffadc6;
+`
 
 const App = (props) => {
   // ************TARKISTA JA KORJAA FULL-OSA-7 ROUTED-ANECDOTES A HREFIT LINK TO *************************
@@ -206,8 +246,6 @@ const App = (props) => {
   const userById = (id) => props.allUsers.find((user) => user.id === id);
   const blogById = (id) => props.blogs.find((blog) => blog.id === id);
 
-  const padding = { padding: 5 };
-
   console.log('createBlogFormRef.current', createBlogFormRef.current);
 
   // const Home = ({ title, author, url, handleSubmit }) => {
@@ -241,95 +279,113 @@ const App = (props) => {
   console.log('props.blogs', props.blogs);
   console.log('props.user', props.user);
 
+  const linkStyle = {
+    color: 'white',
+    margin: '5px',
+    padding: '3px',
+    border: '2px solid black',
+    borderRadius: '3px',
+    display: 'inline-block',
+    background: '#f20049'
+  }
+
   if (props.user === null || props.user === undefined) {
     return (
-      <div className="loginFormView">
-        <h2>Log in to application</h2>
-        <NotificationError />
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input {...removeReset(name)} />
-          </div>
-          <div>
-            password
-            <input {...removeReset(pass)} />
-          </div>
-          <button type="submit">login</button>
-        </form>
-      </div>
+      <React.Fragment>
+        <GlobalStyle />
+        <LoginDiv>
+          <h2>Log in to application</h2>
+          <NotificationError />
+          <form onSubmit={handleLogin}>
+            <div>
+              username
+              <input {...removeReset(name)} />
+            </div>
+            <div>
+              password
+              <input {...removeReset(pass)} />
+            </div>
+            <Button type="submit">login</Button>
+          </form>
+        </LoginDiv>
+      </React.Fragment>
     );
   }
 
   return (
-    <div className="loggedInView">
-      <h2>Blogs</h2>
-      <NotificationError />
-      <NotificationSuccess />
-      <h4>{props.user.name} logged in</h4>
-      <button onClick={handleLogOut}>Log Out</button>
-      <Router>
-        <div>
+    <React.Fragment>
+      <GlobalStyle />
+      <div>
+        <H1>Blogs</H1>
+        <NotificationError />
+        <NotificationSuccess />
+        <h4>{props.user.name} logged in</h4>
+        <Button onClick={handleLogOut}>Log Out</Button>
+        <Router>
           <div>
-            <Link style={padding} to="/">
-              Blogs
-            </Link>
-            <Link style={padding} to="/users">
-              users
-            </Link>
+            <div>
+              <Link style={linkStyle} to="/">
+                Blogs
+              </Link>
+              <Link style={linkStyle} to="/users">
+                Users
+              </Link>
+            </div>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <div>
+                  <StylishBlogForm>
+                    <Togglable buttonLabel="new blog" ref={createBlogFormRef}>
+                      <CreateBlogForm
+                        handleSubmit={handleSubmit}
+                        title={removeReset(title)}
+                        author={removeReset(author)}
+                        url={removeReset(url)}
+                      />
+                    </Togglable>
+                  </StylishBlogForm>
+                  {props.blogs
+                    ? sort(props.blogs).map((blog) => (
+                      <Blog
+                        key={blog.id}
+                        blog={blog}
+                        handleUpdate={handleUpdate}
+                        handleRemove={handleRemove}
+                        user={props.user}
+                      />
+                    ))
+                    : null}
+                </div>
+              )}
+            />
+            <Route
+              exact
+              path="/users"
+              render={() => <Users allUsers={props.allUsers} />}
+            />
+            <Route
+              exact
+              path="/users/:id"
+              render={({ match }) => <User user={userById(match.params.id)} />}
+            />
+            <Route
+              exact
+              path="/blogs/:id"
+              render={({ match }) => (
+                <BlogMoreInfo
+                  blog={blogById(match.params.id)}
+                  handleRemove={handleRemove}
+                  handleUpdate={handleUpdate}
+                  user={props.user}
+                />
+              )}
+            />
           </div>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <div>
-                <Togglable buttonLabel="new blog" ref={createBlogFormRef}>
-                  <CreateBlogForm
-                    handleSubmit={handleSubmit}
-                    title={removeReset(title)}
-                    author={removeReset(author)}
-                    url={removeReset(url)}
-                  />
-                </Togglable>
-                {props.blogs
-                  ? sort(props.blogs).map((blog) => (
-                    <Blog
-                      key={blog.id}
-                      blog={blog}
-                      handleUpdate={handleUpdate}
-                      handleRemove={handleRemove}
-                      user={props.user}
-                    />
-                  ))
-                  : null}
-              </div>
-            )}
-          />
-          <Route
-            exact
-            path="/users"
-            render={() => <Users allUsers={props.allUsers} />}
-          />
-          <Route
-            exact
-            path="/users/:id"
-            render={({ match }) => <User user={userById(match.params.id)} />}
-          />
-          <Route
-            exact
-            path="/blogs/:id"
-            render={({ match }) => (
-              <BlogMoreInfo
-                blog={blogById(match.params.id)}
-                handleRemove={handleRemove}
-                handleUpdate={handleUpdate}
-                user={props.user}
-              />
-            )}
-          />
-        </div>
-      </Router>
-    </div>
+        </Router>
+      </div>
+    </React.Fragment>
   );
 };
 // export default App;

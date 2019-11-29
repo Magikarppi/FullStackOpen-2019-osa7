@@ -1,5 +1,21 @@
 import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const StylishDiv = styled.div`
+`
+const StylishButton = styled.button`
+  background: #fff870;
+&:hover {
+  background: #85015d
+}
+font-size: 0.9em;
+margin: 1em;
+padding: 0.25em 1em;
+border: 2px solid #8f8d64;
+border-radius: 3px;
+text-align: center;
+`
 
 const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
@@ -23,15 +39,15 @@ const Togglable = React.forwardRef((props, ref) => {
   })
   console.log('props.children', props.children)
   return (
-    <div>
+    <StylishDiv>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <StylishButton onClick={toggleVisibility}>{props.buttonLabel}</StylishButton>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <StylishButton onClick={toggleVisibility}>cancel</StylishButton>
       </div>
-    </div>
+    </StylishDiv>
   )
 })
 

@@ -1,5 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const StylishButton = styled.button`
+    background: #fff870;
+&:hover {
+  background: #85015d
+}
+font-size: 0.9em;
+margin: 1em;
+padding: 0.25em 1em;
+border: 2px solid #8f8d64;
+border-radius: 3px;
+text-align: center;
+`
 
 const CreateBlogForm = ({ handleSubmit, title, url, author }) => {
   console.log('CreateBlogForm renders')
@@ -19,7 +33,7 @@ const CreateBlogForm = ({ handleSubmit, title, url, author }) => {
           url
           <input {...url} />
         </div>
-        <button type="submit">Create</button>
+        <StylishButton type="submit">Create</StylishButton>
       </form>
     </div>
   );
