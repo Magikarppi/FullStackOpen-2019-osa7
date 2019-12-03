@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import '../index.css'
 
 const NotificationSuccess = (props) => {
-  console.log(
-    'NotificationSuccess runs with props.successNotification',
-    props.successNotification
-  );
+
   return props.successNotification ? (
     <div className="success">{props.successNotification}</div>
   ) : null;

@@ -26,9 +26,6 @@ const blogReducer = (state = [], action) => {
     console.log('state in blogReducer before update::', state)
     const commentBlog = action.data.blog
     const filteredBlogs = state.filter(blog => blog.id !== commentBlog.id);
-    // const blogsCopy = [...state]
-    // const blogToComment = blogsCopy.find(blog => blog.id === commentBlog.id);
-    // blogToComment.comments.push(comment)
     return [...filteredBlogs, commentBlog]
   }
   default:

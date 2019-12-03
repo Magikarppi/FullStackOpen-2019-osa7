@@ -64,22 +64,12 @@ const H1 = styled.h1`
 `
 
 const App = (props) => {
-  // ************TARKISTA JA KORJAA FULL-OSA-7 ROUTED-ANECDOTES A HREFIT LINK TO *************************
 
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [user, setUser] = useState(null);
-  // const [blogs, setBlogs] = useState([]);
-  // const [title, setTitle] = useState('');
-  // const [author, setAuthor] = useState('');
-  // const [url, setUrl] = useState('');
   const name = useField('text');
   const pass = useField('password');
   const title = useField('text');
   const author = useField('text');
   const url = useField('text');
-  // const [errorMessage, setErrorMessage] = useState('');
-  // const [successMessage, setSuccessMessage] = useState('');
 
   const createBlogFormRef = React.createRef();
   const { initializeBlogs, initializeUsers, setUser } = props;
@@ -90,7 +80,6 @@ const App = (props) => {
       const blogs = await blogsService.getAll();
       console.log('blogs in fetchblogs', blogs);
       initializeBlogs(blogs);
-      // setBlogs(blogs.sort((a, b) => b.likes - a.likes));
     };
     fetchBlogs();
 
@@ -179,8 +168,7 @@ const App = (props) => {
         console.log('error', error);
       }
       props.addBlog(createdBlog);
-      // const updatedBlogs = [...props.blogs, createdBlog];
-      // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
+
       props.setSuccessNotification(`${createdBlog.title} was added!`);
       author.reset();
       title.reset();
@@ -208,9 +196,7 @@ const App = (props) => {
     try {
       const likedBlog = await blogsService.update(updateBlog);
       props.updateBlog(likedBlog);
-      // const filteredBlogs = props.blogs.filter(blog => blog.id !== likedBlog.id);
-      // const updatedBlogs = [...filteredBlogs, likedBlog];
-      // setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes));
+
     } catch (exception) {
       console.log(exception);
     }
@@ -225,7 +211,6 @@ const App = (props) => {
       try {
         await blogsService.remove(deleteBlog);
         props.deleteBlog(deleteBlog);
-        // setBlogs(props.blogs.filter(blog => blog.id !== deleteBlog.id))
       } catch (exception) {
         console.log(exception);
       }
@@ -245,39 +230,6 @@ const App = (props) => {
 
   const userById = (id) => props.allUsers.find((user) => user.id === id);
   const blogById = (id) => props.blogs.find((blog) => blog.id === id);
-
-  console.log('createBlogFormRef.current', createBlogFormRef.current);
-
-  // const Home = ({ title, author, url, handleSubmit }) => {
-
-  //   console.log('Home component renders')
-  //   return (
-  //     <div>
-  //       <Togglable buttonLabel="new blog" ref={createBlogFormRef}>
-  //         <CreateBlogForm
-  //           handleSubmit={handleSubmit}
-  //           title={removeReset(title)}
-  //           author={removeReset(author)}
-  //           url={removeReset(url)}
-  //         />
-  //       </Togglable>
-  //       {props.blogs
-  //         ? sort(props.blogs).map((blog) => (
-  //           <Blog
-  //             key={blog.id}
-  //             blog={blog}
-  //             handleUpdate={handleUpdate}
-  //             handleRemove={handleRemove}
-  //             user={props.user}
-  //           />
-  //         ))
-  //         : null}
-  //     </div>
-  //   );
-  // };
-
-  console.log('props.blogs', props.blogs);
-  console.log('props.user', props.user);
 
   const linkStyle = {
     color: 'white',
@@ -299,13 +251,13 @@ const App = (props) => {
           <form onSubmit={handleLogin}>
             <div>
               username
-              <input {...removeReset(name)} />
+              <input data-cy="username_input" {...removeReset(name)} />
             </div>
             <div>
               password
-              <input {...removeReset(pass)} />
+              <input data-cy="password_input" {...removeReset(pass)} />
             </div>
-            <Button type="submit">login</Button>
+            <Button type="submit" data-cy="submit">login</Button>
           </form>
         </LoginDiv>
       </React.Fragment>
@@ -327,7 +279,7 @@ const App = (props) => {
               <Link style={linkStyle} to="/">
                 Blogs
               </Link>
-              <Link style={linkStyle} to="/users">
+              <Link data-cy="users_link" style={linkStyle} to="/users">
                 Users
               </Link>
             </div>
@@ -337,7 +289,7 @@ const App = (props) => {
               render={() => (
                 <div>
                   <StylishBlogForm>
-                    <Togglable buttonLabel="new blog" ref={createBlogFormRef}>
+                    <Togglable buttonLabel="new blog" ref={createBlogFormRef} >
                       <CreateBlogForm
                         handleSubmit={handleSubmit}
                         title={removeReset(title)}

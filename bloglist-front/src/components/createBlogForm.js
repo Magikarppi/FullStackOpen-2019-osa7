@@ -16,24 +16,23 @@ text-align: center;
 `
 
 const CreateBlogForm = ({ handleSubmit, title, url, author }) => {
-  console.log('CreateBlogForm renders')
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div>
           title
-          <input {...title} />
+          <input data-cy="title_input" {...title} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input data-cy="author_input" {...author} />
         </div>
         <div>
           url
-          <input {...url} />
+          <input data-cy="url_input" {...url} />
         </div>
-        <StylishButton type="submit">Create</StylishButton>
+        <StylishButton type="submit" data-cy="submit">Create</StylishButton>
       </form>
     </div>
   );

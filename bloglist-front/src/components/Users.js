@@ -46,7 +46,7 @@ const Users = ({ allUsers }) => {
           <H3>Blogs</H3>
           {allUsers.map((user) => (
             <div key={user.id}>
-              <Div>
+              <Div data-cy="users_div">
                 <Link to={`/users/${user.id}`}>
                   <TextDiv>
                     {user.name} as {user.username} with {user.blogs.length} blogs

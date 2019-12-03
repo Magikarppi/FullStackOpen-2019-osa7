@@ -21,16 +21,15 @@ border-radius: 3px;
 `
 
 const CommentForm = ({ handleSubmit, comment }) => {
-  console.log('CommentForm renders')
 
   return (
     <CommentSection>
       <form onSubmit={handleSubmit}>
         <div>
           comment
-          <input {...comment} />
+          <input data-cy='comment_input'{...comment} />
         </div>
-        <Button type="submit">Comment</Button>
+        <Button data-cy='submit' type="submit">Comment</Button>
       </form>
     </CommentSection>
   );

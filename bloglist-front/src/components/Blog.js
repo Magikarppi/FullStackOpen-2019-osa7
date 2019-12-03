@@ -31,7 +31,7 @@ const Blog = ({ blog }) => {
   `;
 
   return (
-    <StylishBlog>
+    <StylishBlog data-cy="blog_div">
       <Link to={`/blogs/${blog.id}`}>
         <StylishLink>
           {blog.title} - {blog.author}

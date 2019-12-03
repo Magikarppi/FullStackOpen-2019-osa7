@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import '../index.css'
 
 const NotificationError = (props) => {
-  console.log('props.errornotification', props.errorNotification);
   return props.errorNotification ? (
     <div className="error">{props.errorNotification}</div>
   ) : null;

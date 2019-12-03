@@ -14,15 +14,15 @@ const Menu = ({anecdotes, addNew, anecdoteById, setNotification}) => {
       <Router>
         <div>
           <div>
-            <a href="/" style={padding}>
+            <Link to="/" style={padding}>
               anecdotes
-            </a>
-            <a href="/create" style={padding}>
+            </Link>
+            <Link to="/create" style={padding}>
               create new
-            </a>
-            <a href="/about" style={padding}>
+            </Link>
+            <Link to="/about" style={padding}>
               about
-            </a>
+            </Link>
           </div>
           <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
           <Route path="/create" render={() => <CreateNewAnecdote addNew={addNew} setNotification={setNotification} />} />

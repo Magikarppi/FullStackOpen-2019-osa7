@@ -100,7 +100,7 @@ const BlogMoreInfo = ({ blog, handleRemove, handleUpdate, user, commentBlog }) =
           </H2>
           <a href={blog.url}> {blog.url} </a>
           <p>Likes: {blog.likes}</p>
-          <Button onClick={() => handleUpdate(blog)}>Like</Button>
+          <Button data-cy="like_btn" onClick={() => handleUpdate(blog)}>Like</Button>
           <p>added by {user.name}</p>
           <Button onClick={() => handleRemove(blog)}>Delete</Button>
           <div>
@@ -121,7 +121,7 @@ const BlogMoreInfo = ({ blog, handleRemove, handleUpdate, user, commentBlog }) =
           </H2>
           <a href={blog.url}> <StyledLink>{blog.url}</StyledLink> </a>
           <p>Likes: {blog.likes}</p>
-          <Button onClick={() => handleUpdate(blog)}>Like</Button>
+          <Button data-cy="like_btn" onClick={() => handleUpdate(blog)}>Like</Button>
           <p>added by {blog.user.name}</p>
           <div>
             <CommentForm comment={removeReset(comment)} handleSubmit={handleSubmit} />
